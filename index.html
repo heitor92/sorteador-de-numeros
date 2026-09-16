@@ -21,11 +21,11 @@
       <p>numbers</p>
     </div>
   </header>
-  <main>
+  <main class="container">
     <section>
       <div>
         <p>online - gratuito</p>
-        <h1>sorteador de números</h1>
+        <h1>sorteador <br>de números</h1>
       </div>
       <ul>
         <li>
@@ -48,23 +48,29 @@
         <h2>Quero sortear:</h2>
         <p>defina o intervalo e a quantidade de números, clique em "Sortear" e veja os resultados na tela. É rápido e
           fácil!</p>
-        <div>
-          <div>
+        <div class="input-numbers">
+          <div class="field">
             <label for="numbers">Números</label>
-            <input type="number" id="numbers">
+            <div>
+              <input type="number" id="numbers" value="2">
+            </div>
           </div>
-          <div>
+          <div class="field">
             <label for="from">De</label>
-            <input type="number" id="from">
+            <div>
+              <input type="number" id="from" value="1">
+            </div>
           </div>
-          <div>
+          <div class="field">
             <label for="to">Até</label>
-            <input type="number" id="to">
+            <div>
+              <input type="number" id="to" value="100">
+            </div>
           </div>
         </div>
-        <div>
-          <label for="repeat">Não repetir número</label>
+        <div class="switch-row">
           <input type="checkbox" name="" id="repeat">
+          <label for="repeat">Não repetir número</label>
         </div>
         <button>Sortear <img src="assets/arrow-right.svg" alt=""></button>
       </form>
