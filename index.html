@@ -45,6 +45,7 @@
         </li>
       </ul>
       <form>
+      <!-- <form class="hidden"> -->
         <h2>Quero sortear:</h2>
         <p>defina o intervalo e a quantidade de números, clique em "Sortear" e veja os resultados na tela. É rápido e
           fácil!</p>
@@ -69,17 +70,20 @@
           </div>
         </div>
         <div class="switch-row">
-          <input type="checkbox" name="" id="repeat">
+          <input type="checkbox" name="" id="repeat" checked>
           <label for="repeat">Não repetir número</label>
         </div>
         <button>Sortear <img src="assets/arrow-right.svg" alt=""></button>
       </form>
-      <div>
-        <h2>Resultado do sorteio</h2>
-        <p>1º resultado</p>
-        <div>
-          <div>23</div>
-          <div>12</div>
+      <!-- <div> -->
+      <div class="hidden">
+        <div class="result-header">
+          <h2>Resultado do sorteio</h2>
+          <p>1º resultado</p>
+        </div>
+        <div class="result-content">
+          <p>23</p>
+          <p>12</p>
         </div>
         <button>Sortear novamente <img src="assets/repeat.svg" alt=""></button>
       </div>
