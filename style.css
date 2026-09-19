@@ -297,7 +297,7 @@ body {
             width: 44px;
             height: 26px;
             border-radius: 999px;
-            background: #d9d9d9;              /* cinza = desligado */
+            background: var(--content-tertiary);
             vertical-align: middle;
             margin-right: 10px;
             transition: background 0.3s ease;
@@ -311,7 +311,7 @@ body {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #fff;
+            background: var(--content-primary);
             top: 3px;
             left: 3px;
             transition: transform 0.3s ease;
@@ -319,7 +319,7 @@ body {
           }
           /* estado ligado: gradiente roxo/rosa como na imagem */
           & input[type="checkbox"]:checked + label::before {
-            background: linear-gradient(90deg, #e935c1, #7849f7);
+            background: var(--gradient-background);
           }
 
           /* move a bolinha para a direita */
@@ -333,6 +333,7 @@ body {
         }
 
         & > button {
+          position: relative;
           border: none;
           border-radius: 0.5rem;
           background-color: var(--background-tertiary);
@@ -344,6 +345,40 @@ body {
           align-items: center;   /* alinha verticalmente */
           justify-content: center; /* centraliza horizontalmente */
           gap: 0.5rem;
+          cursor: pointer;
+          z-index: 0; /* cria stacking context */
+
+          & img {
+            transition: transform 0.3s ease;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px; /* espessura da borda */
+            background: var(--gradient-border);
+            background-size: 300% 300%; /* maior que o elemento p/ animar */
+            background-position: 0% 50%;
+            -webkit-mask:
+              linear-gradient(#fff 0 0) content-box,
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+          }
+
+          &:hover::before {
+            opacity: 1;
+            animation: border-slide 2.5s linear infinite;
+          }
+
+          &:hover img {
+            animation: arrow-slide 1.5s ease-in-out infinite;
+          }
   
         }
       }
@@ -386,6 +421,7 @@ body {
         }
 
         & > button {
+          position: relative;
           border: none;
           border-radius: 0.5rem;
           background-color: var(--background-tertiary);
@@ -397,7 +433,42 @@ body {
           align-items: center;   /* alinha verticalmente */
           justify-content: center; /* centraliza horizontalmente */
           gap: 0.5rem;
-  
+          cursor: pointer;
+          z-index: 0; /* cria stacking context */
+
+          &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px; /* espessura da borda */
+            background: var(--gradient-border);
+            background-size: 300% 300%; /* maior que o elemento p/ animar */
+            background-position: 0% 50%;
+            -webkit-mask:
+              linear-gradient(#fff 0 0) content-box,
+              linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+          }
+
+          &:hover::before {
+            opacity: 1;
+            animation: border-slide 2.5s linear infinite;
+          }
+
+          & .icon-repeat .repeat-circle {
+            transform-origin: 12px 12px; /* centro do viewBox 24x24 */
+            transition: transform 0.6s ease;
+          }
+
+
+          &:hover .icon-repeat .repeat-circle {
+            animation: spin 1.5s linear infinite;
+          }
         }
 
       }
@@ -407,9 +478,27 @@ body {
 
 .container {
   width: 100%;
-  max-width: 80rem;
+  max-width: 90rem;
   margin-inline: auto;
-  padding-inline: clamp(2.25rem, 10vw - 4rem, 5rem);
+  padding-inline: clamp(2.25rem, 10vw - 4rem, 8.375rem);
+}
+
+@keyframes border-slide {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes arrow-slide {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 @media (width < 80em) {
@@ -459,6 +548,7 @@ body {
   }
 
   .container {
-    max-width: 23.4375rem;
+    max-width: 26rem;
   }
 }
+
