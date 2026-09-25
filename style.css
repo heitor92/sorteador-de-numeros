@@ -88,6 +88,7 @@ body {
       linear-gradient(to bottom, var(--background-primary) 12%, transparent 100%),
       url(assets/background.svg);
     z-index: -1;              /* fica atrás do conteúdo */
+    background-position: 100%;
   }
 
   & header {
@@ -217,6 +218,17 @@ body {
                 z-index: -1;
               }
 
+              &.input-error::after {
+                inset: 1px;
+                background: var(--accent-red);
+              }
+
+              &.input-error:hover::after,
+              &.input-error:focus-within::after {
+                inset: 2px;
+                background: var(--background-secondary);
+              }
+
               /* camada do gradiente: aparece no hover/focus */
               &::before {
                 content: "";
@@ -252,13 +264,13 @@ body {
                 text-align: center;
                 outline: none;
 
-                appearance: textfield;
+                /* appearance: textfield;
                 -moz-appearance: textfield;
                 &::-webkit-outer-spin-button,
                 &::-webkit-inner-spin-button {
                   -webkit-appearance: none;
                   margin: 0;
-                }
+                } */
               }
             }
 
@@ -381,6 +393,16 @@ body {
           }
   
         }
+
+        & .error-message {
+          color: var(--accent-red);
+          font: var(--paragraph-small);
+          margin-top: 4px;
+        }
+
+        & .error-message.hidden {
+          display: none;
+        }
       }
 
       & > :nth-child(4) {
@@ -410,13 +432,36 @@ body {
 
         & > div.result-content {
           display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
           gap: 0.25rem;
           & p {
-            /* border: 1px solid rebeccapurple; */
+            position: relative;
             border-radius: 1.75rem;
-            padding: 0.4375rem 0.8125rem;
+            min-width: 7rem;
+            padding-inline: 0.5rem;
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
             font: var(--number-font);
-            color: var(--content-brand);
+            color: transparent;
+            animation: number-reveal 2.1s linear forwards;
+            /* isolation: isolate; */
+
+            /* o "cubo" que gira */
+            &::before {
+              content: "";
+              position: absolute;
+              inset: 0;
+              border-radius: 1.75rem;
+              background: var(--background-brand);
+              z-index: -1;
+              animation:
+                bounce-in 0.6s cubic-bezier(0.28, 0.84, 0.42, 1) both,
+                cube-roll 1.5s ease-in-out 0.6s forwards,
+                fade-out 0.4s ease-out 1.7s forwards;
+            }
+
           }
         }
 
@@ -435,6 +480,15 @@ body {
           gap: 0.5rem;
           cursor: pointer;
           z-index: 0; /* cria stacking context */
+
+          &.hidden {
+            display: none;
+            opacity: 0;
+          }
+
+          &.show {
+            animation: fade-in-up 0.6s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+          }
 
           &::before {
             content: "";
@@ -501,6 +555,74 @@ body {
   to { transform: rotate(360deg); }
 }
 
+@keyframes cube-roll {
+  0% {
+    transform: rotate(0deg);
+    background: var(--background-brand);
+  }
+  90% {
+    transform: rotate(180deg);
+    background: var(--background-brand);
+  }
+  100% {
+    transform: rotate(180deg);
+    background: transparent;
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes number-reveal {
+  0%, 20% {
+    color: transparent;
+    font-size: 4rem;
+  }
+  30%, 90% {
+    color: var(--color-inverse);
+    font-size: 4rem;
+  }
+  100% {
+    color: var(--content-brand);
+    font-size: 3rem;
+  }
+}
+
+@keyframes slide-in {
+  from { transform: translateX(var(--delta, 0)); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (width < 80em) {
   body {
     & header {
@@ -523,6 +645,7 @@ body {
         }
 
         & > :nth-child(2) {
+          margin-block: 2.75rem;
            & > p {
             /* max-width: 18.1875rem; */
             font: var(--paragraph-small);
